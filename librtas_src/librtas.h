@@ -44,6 +44,12 @@
 
 #define PAGE_SIZE 4096
 
+#if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
+#define deprecated_for_le __attribute__((deprecated ("do not use on ppc64le")))
+#else
+#define deprecated_for_le
+#endif
+
 /* Adding a new RTAS call requires the following:
  * 1) A function prototype in librtas.h (this file) that roughly matches
  *    the RTAS call name.
@@ -109,9 +115,9 @@ extern int rtas_set_time(uint32_t year, uint32_t month, uint32_t day,
  *   rtas_update_nodes()
  *   rtas_update_properties()
  */
-extern int rtas_suspend_me(uint64_t streamid);
-extern int rtas_update_nodes(char *workarea, unsigned int scope);
-extern int rtas_update_properties(char *workarea, unsigned int scope);
+extern int rtas_suspend_me(uint64_t streamid) deprecated_for_le;
+extern int rtas_update_nodes(char *workarea, unsigned int scope) deprecated_for_le;
+extern int rtas_update_properties(char *workarea, unsigned int scope) deprecated_for_le;
 extern int rtas_physical_attestation(char *workarea, int seq_num,
 				     int *next_seq_num, int *work_area_bytes);
 
