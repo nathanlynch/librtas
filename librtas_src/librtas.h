@@ -102,6 +102,13 @@ extern int rtas_set_sysparm(unsigned int parameter, char *data);
 extern int rtas_set_time(uint32_t year, uint32_t month, uint32_t day, 
 				uint32_t hour, uint32_t min, uint32_t sec, 
 				uint32_t nsec);
+/*
+ * Little-endian Linux versions v5.11 or later may reject these calls,
+ * depending on kernel configuration (CONFIG_PPC_RTAS_FILTER):
+ *   rtas_suspend_me()
+ *   rtas_update_nodes()
+ *   rtas_update_properties()
+ */
 extern int rtas_suspend_me(uint64_t streamid);
 extern int rtas_update_nodes(char *workarea, unsigned int scope);
 extern int rtas_update_properties(char *workarea, unsigned int scope);
