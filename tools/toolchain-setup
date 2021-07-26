@@ -27,13 +27,16 @@ case "$TARGET" in
 	;;
 esac
 
-rm -rf toolchains/install
-mkdir -p toolchains/{download,install}
-pushd toolchains/download
+: "${DL_DIR:="$PWD/toolchains/download"}"
+mkdir -p "$DL_DIR"
+pushd "$DL_DIR"
 curl -C - -O "$url"
 popd
+
+rm -rf toolchains/install
+mkdir -p toolchains/install
 pushd toolchains/install
-tar xf ../download/"$filename"
+tar xf "$DL_DIR"/"$filename"
 bindir="$(echo "$PWD"/*/bin)"
 popd
 
