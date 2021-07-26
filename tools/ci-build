@@ -1,0 +1,21 @@
+#!/bin/bash
+
+set -eu
+set -o pipefail
+
+declare -a configure_opts
+
+# TARGET should be a host tuple, e.g. "powerpc64le-buildroot-linux-gnu".
+# Providing an appropriate toolchain and setting up the environment
+# (PATH etc) is outside the scope of this tool.
+test -v TARGET && configure_opts+=(--host="$TARGET")
+
+./autogen.sh
+./configure "${configure_opts[@]}"
+make -j "$(nproc)"
+
+if test -v TARGET; then
+    printf "Cross-compiling (%s); skipping 'make distcheck'.\n" "$TARGET"
+else
+    make -j "$(nproc)" distcheck
+fi
