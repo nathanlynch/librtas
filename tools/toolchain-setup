@@ -1,0 +1,46 @@
+#!/bin/bash
+
+set -eu
+set -o pipefail
+
+test -v TARGET || {
+    printf "Error: TARGET environment variable unset.\n" >&2
+    exit 1
+}
+
+url_base="https://toolchains.bootlin.com/downloads/releases/toolchains/"
+filename=
+
+url="${url_base}"
+case "$TARGET" in
+    powerpc64)
+	filename="powerpc64-power8--glibc--stable-2020.08-1.tar.bz2"
+	url+="powerpc64-power8/tarballs/$filename"
+	;;
+    powerpc64le)
+	filename="powerpc64le-power8--glibc--stable-2020.08-1.tar.bz2"
+	url+="powerpc64le-power8/tarballs/$filename"
+	;;
+    *)
+	printf "Error: unsupported TARGET '%s'\n" "$TARGET" >&2
+	exit 1
+	;;
+esac
+
+rm -rf toolchains/install
+mkdir -p toolchains/{download,install}
+pushd toolchains/download
+curl -C - -O "$url"
+popd
+pushd toolchains/install
+tar xf ../download/"$filename"
+bindir="$(echo "$PWD"/*/bin)"
+popd
+
+"$bindir"/../relocate-sdk.sh
+
+printf "Installed %s toolchain in %s\n" "$TARGET" "$bindir"
+printf "Source %s to use it.\n" "$(realpath "$bindir/../env-setup")"
+cat > "$bindir/../env-setup" <<EOF
+PATH="$bindir":"\$PATH"
+EOF
