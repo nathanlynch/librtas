@@ -13,7 +13,7 @@ jobs:
       matrix:
         target: [powerpc64le, powerpc64]
     env:
-      TARGET: target
+      TARGET: ${{ matrix.target }}
     steps:
     - uses: actions/checkout@v2
     - name: toolchain-setup
