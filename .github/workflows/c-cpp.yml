@@ -13,8 +13,17 @@ jobs:
         target: [powerpc64le, powerpc64]
     env:
       TARGET: ${{ matrix.target }}
+      DL_DIR: ~/Downloads
     steps:
     - uses: actions/checkout@v2
+    - name: cache toolchain
+      uses: actions/cache@v2
+      with:
+        path: ~/Downloads/*.tar.bz2
+        key: tc-cached-${{ matrix.target }}
+    - name: Report cache hit status
+      if: steps.cache.outputs.cache-hit != 'true'
+      run: echo toolchain cache miss
     - name: toolchain-setup
       run: ./tools/toolchain-setup
     - name: build
