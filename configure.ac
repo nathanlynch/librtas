@@ -1,3 +1,4 @@
+AC_PREREQ([2.69])
 AC_INIT([librtas],[2.0.2],[See README])
 
 AC_CONFIG_AUX_DIR([config])
