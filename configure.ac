@@ -1,5 +1,6 @@
 AC_PREREQ([2.69])
 AC_INIT([librtas],[2.0.2],[See README])
+AC_CONFIG_SRCDIR([librtas_src/librtas.h])
 
 AC_CONFIG_AUX_DIR([config])
 AC_CONFIG_MACRO_DIR([m4])
