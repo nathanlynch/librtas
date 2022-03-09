@@ -65,7 +65,7 @@ static int open_proc_rtas_file(const char *name, int mode)
 	int fd = -1;
 	int i;
 
-	npaths = sizeof(proc_rtas_paths) / sizeof(char *);
+	npaths = sizeof(proc_rtas_paths) / sizeof(proc_rtas_paths[0]);
 	for (i = 0; i < npaths; i++) {
 		sprintf(full_name, "%s/%s", proc_rtas_paths[i], name);
 		fd = open(full_name, mode, S_IRUSR | S_IWUSR);
