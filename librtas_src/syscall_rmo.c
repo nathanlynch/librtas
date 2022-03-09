@@ -62,7 +62,7 @@ static int open_proc_rtas_file(const char *name, int mode)
 	const char *proc_rtas_paths[] = { "/proc/ppc64/rtas", "/proc/rtas" };
 	char full_name[MAX_PATH_LEN];
 	int npaths;
-	int fd;
+	int fd = -1;
 	int i;
 
 	npaths = sizeof(proc_rtas_paths) / sizeof(char *);
