@@ -1,0 +1,38 @@
+#!/bin/bash
+
+set -eu
+set -o pipefail
+
+: "${builddir:=.}"
+: "${srcdir:=.}"
+
+# keep nm sort order stable
+LC_ALL=C
+export LC_ALL
+
+found=$(mktemp)
+
+cleanup() {
+    rm -f "$found"
+}
+
+trap cleanup EXIT
+
+fail() {
+    printf "%s\n" "$1" >&2
+    exit 1
+}
+
+pushd "${builddir}/.libs" >/dev/null
+declare -a libs
+libs=(*.so)
+popd >/dev/null
+
+for lib in "${libs[@]}" ; do
+    nm --portability --defined-only --extern-only "${builddir}/.libs/$lib" | \
+	cut -d' ' -f1,2 > "$found"
+    expected="${srcdir}/test/data/${lib}-expected-exports"
+    test -r "$expected" || fail "${lib}: missing expected exports list $expected"
+    diff -u "$expected" "$found" || fail "${lib}: exported symbols changed"
+done
+
