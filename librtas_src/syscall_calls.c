@@ -27,8 +27,8 @@
 #include <errno.h>
 #include <inttypes.h>
 #include <sys/syscall.h>
-#include <linux/unistd.h>
-#include <linux/types.h>
+#include <unistd.h>
+#include <sys/types.h>
 #include "syscall.h"
 #include "librtas.h"
 
