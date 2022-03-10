@@ -466,7 +466,7 @@ int rtas_errinjct_close(int otoken)
  */
 int rtas_errinjct_open(int *otoken)
 {
-	__be32 be_status;
+	uint32_t be_status;
 	int rc, status;
 
 	rc = sanity_check();
@@ -500,7 +500,7 @@ int rtas_errinjct_open(int *otoken)
 int rtas_get_config_addr_info2(uint32_t config_addr, uint64_t phb_id,
 			       uint32_t func, uint32_t *info)
 {
-	__be32 be_info;
+	uint32_t be_info;
 	int rc, status;
 
 	rc = sanity_check();
@@ -535,7 +535,7 @@ int rtas_get_dynamic_sensor(int sensor, void *loc_code, int *state)
 	uint32_t loc_pa = 0;
 	void *locbuf;
 	uint32_t size;
-	__be32 be_state;
+	uint32_t be_state;
 	int rc, status;
 
 	rc = sanity_check();
@@ -578,7 +578,7 @@ int rtas_get_indices(int is_sensor, int type, char *workarea, size_t size,
 		     int start, int *next)
 {
 	uint32_t kernbuf_pa;
-	__be32 be_next;
+	uint32_t be_next;
 	void *kernbuf;
 	int rc, status;
 
@@ -619,7 +619,7 @@ int rtas_get_indices(int is_sensor, int type, char *workarea, size_t size,
  */
 int rtas_get_power_level(int powerdomain, int *level)
 {
-	__be32 be_level;
+	uint32_t be_level;
 	int rc, status;
 
 	rc = sanity_check();
@@ -650,7 +650,7 @@ int rtas_get_power_level(int powerdomain, int *level)
  */
 int rtas_get_sensor(int sensor, int index, int *state)
 {
-	__be32 be_state;
+	uint32_t be_state;
 	int rc, status;
 
 	rc = sanity_check();
@@ -1120,7 +1120,7 @@ int rtas_set_indicator(int indicator, int index, int new_value)
  */
 int rtas_set_power_level(int powerdomain, int level, int *setlevel)
 {
-	__be32 be_setlevel;
+	uint32_t be_setlevel;
 	int rc, status;
 
 	rc = sanity_check();
