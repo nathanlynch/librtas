@@ -24,4 +24,4 @@ jobs:
         sudo apt install -y cppcheck
 
     - name: Run cppcheck
-      run: cppcheck --enable=warning --error-exitcode=1 .
+      run: cppcheck --enable=warning,performance,portability,style --error-exitcode=1 .
