@@ -11,8 +11,8 @@ parse_ibm_diag_scn T
 parse_io_scn T
 parse_lri_scn T
 parse_mem_scn T
-parse_mtms T
 parse_mt_scn T
+parse_mtms T
 parse_post_scn T
 parse_priv_hdr_scn T
 parse_rtas_date T
