@@ -21,7 +21,7 @@ trap cleanup EXIT
 dump_visible_syms() {
     local lib="$1"; shift
     nm --portability --defined-only --extern-only "${lib}" | \
-	cut -d' ' -f1,2
+	cut --delimiter=' ' --fields=1
 }
 
 fail() {
