@@ -1,0 +1,11 @@
+<version>
+  2.0.0
+</version
+
+<headers>
+    {RELPATH}/include/
+</headers>
+
+<libs>
+    {RELPATH}/lib/
+</libs>
