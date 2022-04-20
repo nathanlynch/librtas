@@ -75,9 +75,12 @@ do_compat_check() {
 	       -dump "${srcdir}"/resources/librtas-abi-check.xml \
 	       --dump-format=xml \
 	       -l librtas \
+	       -log-path /dev/null \
 	       -dump-path "${new}"
 
-    "${abicc}" -l librtas -old "${old}" -new "${new}"
+    "${abicc}" -l librtas -old "${old}" -new "${new}" \
+	       -log-path /dev/null \
+	       -report-path /tmp/compat_report.html
 }
 
 ################################################################################
