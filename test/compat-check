@@ -63,6 +63,23 @@ regen_dump() {
 	       -dump-path "${dumpdir}/abi.dump"
 }
 
+do_compat_check() {
+    local host
+    local dumpdir
+
+    host="$1" ; shift
+    old="${srcdir}/resources/abi-dumps/${host}/abi.dump"
+    new="${tmpinst}/abi.dump"
+
+    "${abicc}" -relpath "${tmpinst}" \
+	       -dump "${srcdir}"/resources/librtas-abi-check.xml \
+	       --dump-format=xml \
+	       -l librtas \
+	       -dump-path "${new}"
+
+    "${abicc}" -l librtas -old "${old}" -new "${new}"
+}
+
 ################################################################################
 # main program
 
@@ -92,8 +109,8 @@ case "${mode}" in
 	regen_dump "${host}"
 	;;
     check)
-	echo check mode is unimplemented
-	exit 1
+	echo Checking API/ABI for changes
+	do_compat_check "${host}"
 	;;
     *)
 	fail "unknown mode ${mode}"
