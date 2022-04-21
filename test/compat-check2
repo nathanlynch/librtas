@@ -134,6 +134,28 @@ generate() {
 	       -dump-path "${output}"
 }
 
+check() {
+    local path
+    local old_dump
+    local new_dump
+    local xml_descriptor
+
+    path="$1"; shift
+    old_dump="$1"; shift
+
+    xml_descriptor="$(generate_xml_desc)"
+    new_dump="$(mktemp XXXXXX.dump)"
+
+    # generate a dump to a temp file, to be compared to $baseline
+    generate "${path}" "${new_dump}"
+
+    "${abicc}" -l librtas -old "${old_dump}" -new "${new_dump}" \
+	       -log-path /dev/null \
+	       -report-path /tmp/compat_report.html
+
+    rm -f "${new_dump}"
+}
+
 ################################################################################
 # main program
 
