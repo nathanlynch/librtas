@@ -12,8 +12,10 @@ usage() {
 
     cat <<-EOF
 	Usage:
-	  ${progname} --prefix <path> --reference <dump>
-	  ${progname} --prefix <path> --dumpto <dump>
+	  ${progname} [--check|--generate] <path> <dump-file>
+
+	  --check:    check <path> against <dump-file>
+	  --generate: write API/ABI dump of <path> to <dump-file>
 EOF
     exit "${status}"
 }
@@ -63,8 +65,6 @@ EOF
 
 abicc="abi-compliance-checker"
 
-usage 1
-
 regen_dump() {
     local host
     local dumpdir
@@ -100,39 +100,72 @@ do_compat_check() {
 	       -report-path /tmp/compat_report.html
 }
 
+# Generate a minimal XML description to pass to abicc's '-dump' option.
+generate_xml_desc() {
+    local desc
+
+    desc="$(mktemp)"
+    cat > "${desc}" <<EOF
+<headers>
+    {RELPATH}/include/
+</headers>
+<libs>
+    {RELPATH}/lib/
+</libs>
+EOF
+    echo "${desc}"
+}
+
+generate() {
+    local path
+    local output
+    local xml_descriptor
+
+    path="$1"; shift
+    output="$1"; shift
+
+    xml_descriptor="$(generate_xml_desc)"
+
+    "${abicc}" -relpath "${path}" \
+	       -dump "${xml_descriptor}" \
+	       -dump-format xml \
+	       -sort \
+	       -l librtas \
+	       -dump-path "${output}"
+}
+
 ################################################################################
 # main program
 
-tmpinst=$(mktemp -d)
+xmldesc=$(generate_xml_desc)
 
 cleanup() {
-    rm -rf "${tmpinst}"
+    rm -f "${xmldesc}"
 }
 
 trap cleanup EXIT
 
-opt=${1:-}
+test -v 1 || usage 1
+opt="$1"; shift
+
 case "${opt}" in
-    --regenerate)
-	mode=regenerate
+    --check)
+	fn=check
+	;;
+    --generate)
+	fn=generate
+	;;
+    --help)
+	usage 0
 	;;
     *)
-	mode=check
+	printf "Unknown option '%s'\n" "${opt}" >&2
+	usage 1
 	;;
 esac
 
-make install prefix="${tmpinst}"
+test -v 1 || usage 1; path="$1";   shift
+test -v 1 || usage 1; dumpfile="$1"; shift
+test -v 1 && usage 1
 
-case "${mode}" in
-    regenerate)
-	echo Regenerating ABI dump for "${host}"
-	regen_dump "${host}"
-	;;
-    check)
-	echo Checking API/ABI for changes
-	do_compat_check "${host}"
-	;;
-    *)
-	fail "unknown mode ${mode}"
-	;;
-esac
+"${fn}" "${path}" "${dumpfile}"
