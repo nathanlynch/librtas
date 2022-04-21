@@ -65,41 +65,6 @@ EOF
 
 abicc="abi-compliance-checker"
 
-regen_dump() {
-    local host
-    local dumpdir
-
-    host="$1" ; shift
-    dumpdir="${srcdir}/resources/abi-dumps/${host}"
-
-    mkdir -p "${dumpdir}"
-    "${abicc}" -relpath "${tmpinst}" \
-	       -dump "${srcdir}"/resources/librtas-abi-check.xml \
-	       --dump-format=xml \
-	       -l librtas \
-	       -dump-path "${dumpdir}/abi.dump"
-}
-
-do_compat_check() {
-    local host
-    local dumpdir
-
-    host="$1" ; shift
-    old="${srcdir}/resources/abi-dumps/${host}/abi.dump"
-    new="${tmpinst}/abi.dump"
-
-    "${abicc}" -relpath "${tmpinst}" \
-	       -dump "${srcdir}"/resources/librtas-abi-check.xml \
-	       --dump-format=xml \
-	       -l librtas \
-	       -log-path /dev/null \
-	       -dump-path "${new}"
-
-    "${abicc}" -l librtas -old "${old}" -new "${new}" \
-	       -log-path /dev/null \
-	       -report-path /tmp/compat_report.html
-}
-
 # Generate a minimal XML description to pass to abicc's '-dump' option.
 generate_xml_desc() {
     local desc
