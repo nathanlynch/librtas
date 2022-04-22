@@ -17,7 +17,7 @@ jobs:
 
     strategy:
       matrix:
-        host: [powerpc-linux-gnu, powerpc64-linux-gnu, powerpc64le-linux-gnu, x86_64-linux-gnu]
+        host: [powerpc-linux-gnu, powerpc64-linux-gnu, powerpc64le-linux-gnu, x86_64-pc-linux-gnu]
 
     steps:
     - uses: actions/checkout@v2
@@ -31,7 +31,7 @@ jobs:
         sudo apt update
 
     - name: Install cross compiler
-      if: matrix.host != 'x86_64-linux-gnu'
+      if: matrix.host != 'x86_64-pc-linux-gnu'
       run: |
         sudo apt install -y gcc-${{ matrix.host }}
 
