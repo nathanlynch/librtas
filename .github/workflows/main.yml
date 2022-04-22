@@ -31,7 +31,8 @@ jobs:
         sudo apt update
 
     - name: Install cross compiler
-      run:
+      if: matrix.host != 'x86_64-linux-gnu'
+      run: |
         sudo apt install -y gcc-${{ matrix.host }}
 
     - name: Install utilities
