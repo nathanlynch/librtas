@@ -55,6 +55,15 @@ noinst_HEADERS += librtasevent_src/rtas_event.h \
 	librtasevent_src/rtas_src_codes.c
 
 AM_TESTS_ENVIRONMENT = srcdir='$(srcdir)'; builddir='$(builddir)'; export srcdir builddir;
-TESTS = test/visibility test/compat-check
-EXTRA_DIST += test/compat-check test/visibility test/data/librtasevent.so-expected-exports test/data/librtas.so-expected-exports resources
+TESTS = test/visibility
+EXTRA_DIST += test/compat-check2 test/visibility test/data/librtasevent.so-expected-exports test/data/librtas.so-expected-exports resources
 VERBOSE = yes
+
+# If the source tree has an ABI dump, check the installed tree against it.
+installcheck-local:
+	@if test -r $(srcdir)/resources/abi-dumps/$(host).dump ; then \
+		$(srcdir)/test/compat-check2 --check $(prefix) \
+			$(srcdir)/resources/abi-dumps/$(host).dump ; \
+	else \
+		echo "No ABI dump found for $(host), consider adding one!" ; \
+	fi
