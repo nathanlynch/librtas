@@ -96,6 +96,7 @@ generate() {
 	       -dump-format xml \
 	       -sort \
 	       -l librtas \
+	       -log-path /dev/null \
 	       -dump-path "${output}"
 }
 
