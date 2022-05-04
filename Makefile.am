@@ -61,7 +61,10 @@ VERBOSE = yes
 
 # If the source tree has an ABI dump, check the installed tree against it.
 installcheck-local:
-	if test -r $(srcdir)/resources/abi-dumps/$(host).dump ; then \
+	if test -r $(srcdir)/resources/abi-dumps/$(host_alias).dump ; then \
+		$(srcdir)/test/compat-check2 --check $(prefix) \
+			$(srcdir)/resources/abi-dumps/$(host_alias).dump ; \
+	elif test -r $(srcdir)/resources/abi-dumps/$(host).dump ; then \
 		$(srcdir)/test/compat-check2 --check $(prefix) \
 			$(srcdir)/resources/abi-dumps/$(host).dump ; \
 	else \
