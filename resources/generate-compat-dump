@@ -1,0 +1,55 @@
+#!/bin/bash
+
+set -eu
+set -o pipefail
+
+abicc="abi-compliance-checker"
+
+# Generate a minimal XML description to pass to abicc's '-dump' option.
+generate_xml_desc() {
+    local desc
+
+    desc="$(mktemp)"
+    cat > "${desc}" <<EOF
+<headers>
+    {RELPATH}/include/
+</headers>
+<libs>
+    {RELPATH}/lib/
+</libs>
+EOF
+    echo "${desc}"
+}
+
+generate() {
+    local libname
+    local compiler
+    local path
+    local output
+    local xml_descriptor
+
+    libname="$1";  shift
+    compiler="$1"; shift
+    path="$1";     shift
+    output="$1";   shift
+
+    xml_descriptor="$(generate_xml_desc)"
+
+    # n.b. -gcc-path apparently does not require a pathname; e.g.
+    # "powerpc-linux-gnu-gcc" seems to work fine.
+    "${abicc}" \
+	-dump "${xml_descriptor}" \
+	-dump-format xml \
+	-dump-path "${output}" \
+	-gcc-path "${compiler}" \
+	-l "${libname}" \
+	-log-path /dev/null \
+	-relpath "${path}" \
+	-sort
+}
+
+libname="$1";  shift
+compiler="$1"; shift
+path="$1";     shift
+dumpfile="$1"; shift
+generate "${libname}" "${compiler}" "${path}" "${dumpfile}"
