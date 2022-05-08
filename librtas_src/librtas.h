@@ -32,7 +32,6 @@
 #define RTAS_KERNEL_IMP -1002	/* No Kernel Implementation of Function */
 #define RTAS_PERM	-1003   /* Non-root caller */
 #define RTAS_NO_MEM 	-1004   /* Out of heap memory */
-#define RTAS_NO_LOWMEM	-1005	/* Kernel out of low memory */
 #define RTAS_FREE_ERR	-1006	/* Attempt to free nonexistant rmo buffer */
 #define RTAS_TIMEOUT	-1007	/* RTAS delay exceeded specified timeout */
 #define RTAS_IO_ASSERT	-1098	/* Unexpected I/O Error */
@@ -54,7 +53,6 @@
 extern "C" {
 #endif
 
-extern int rtas_activate_firmware();
 extern int rtas_cfg_connector(char *workarea);
 extern int rtas_delay_timeout(uint64_t timeout_ms);
 extern int rtas_display_char(char c);
