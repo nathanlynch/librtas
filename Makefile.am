@@ -55,7 +55,7 @@ noinst_HEADERS += librtasevent_src/rtas_event.h \
 	librtasevent_src/rtas_src_codes.c
 
 AM_TESTS_ENVIRONMENT = srcdir='$(srcdir)'; builddir='$(builddir)'; export srcdir builddir;
-TESTS = test/visibility
+# TESTS = test/visibility
 EXTRA_DIST += test/compat-check2 test/visibility test/data/librtasevent.so-expected-exports test/data/librtas.so-expected-exports resources
 VERBOSE = yes
 
