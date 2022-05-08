@@ -33,7 +33,7 @@ jobs:
     - name: Install cross compiler
       if: matrix.host != 'x86_64-pc-linux-gnu'
       run: |
-        sudo apt install -y gcc-${{ matrix.host }}
+        sudo apt install -y gcc-${{ matrix.host }} g++-${{ matrix.host }}
 
     - name: Install utilities
       run: |
