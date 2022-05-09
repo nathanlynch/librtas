@@ -1,0 +1,27 @@
+* CI: Collect compat reports even (especially!) on distcheck->installcheck
+  failure. See:
+  https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#example-using-status-check-functions
+
+* Fix abi-compliance-checker binary compat check for ppc64le: no symbols
+  detected, ABI breaks go undetected. The builds for other arches detect
+  problems correctly, so the risk isn't exactly high, but ppc64le is our
+  primary target.
+
+* Evaluate "-strict" option for abi-compliance-checker.
+
+* Evaluate "-show-retval" option for abi-compliance-checker. (show symbol
+  return type)
+
+* Rename resources/abi-dumps to resources/compat-dumps or similar. (see
+  below)
+
+* Change wording throughout to "compatibility check" or "compat check" vs
+  "ABI check", "ABI dump", "compliance check" etc. Despite its name,
+  abi-compliance-checker checks source level compatibility in addition to
+  binary compatibility. And "compliance" is less precise than
+  "compatibility".
+
+* Rename compat-check2!
+
+* Deduplicate dump generation code - either consolidate generate/check into
+  one script or use a library.
