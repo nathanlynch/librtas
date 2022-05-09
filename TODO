@@ -1,17 +1,3 @@
-* CI: Collect compat reports even (especially!) on distcheck->installcheck
-  failure. See:
-  https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#example-using-status-check-functions
-
-* Fix abi-compliance-checker binary compat check for ppc64le: no symbols
-  detected, ABI breaks go undetected. The builds for other arches detect
-  problems correctly, so the risk isn't exactly high, but ppc64le is our
-  primary target.
-
-* Evaluate "-strict" option for abi-compliance-checker.
-
-* Evaluate "-show-retval" option for abi-compliance-checker. (show symbol
-  return type)
-
 * Rename resources/abi-dumps to resources/compat-dumps or similar. (see
   below)
 
@@ -28,7 +14,22 @@
 
 * Remove bespoke compat check script, data
 
-* Prevent cancellation of concurrent jobs? Kind of annoying.
+* Fix abi-compliance-checker binary compat check for ppc64le: no symbols
+  detected, ABI breaks go undetected. The builds for other arches detect
+  problems correctly, so the risk isn't exactly high, but ppc64le is our
+  primary target. This is due to 'readelf -Ws' producing '[<localentry>: x]'
+  strings in its output for ppc64le objects. See:
+  * https://lore.kernel.org/bpf/20191201195728.4161537-1-aurelien@aurel32.net/
+  * https://bugzilla.redhat.com/show_bug.cgi?id=1479302
+
+* Evaluate "-strict" option for abi-compliance-checker.
+
+* Evaluate "-show-retval" option for abi-compliance-checker. (show symbol
+  return type)
 
 * Add useful version information to compat reports. Right now they say
   "between X and X" (literally).
+
+* CI: Build with more compilers/versions.
+
+* CI: Remove 'file .libs/librtas.so*' from distcheck step
