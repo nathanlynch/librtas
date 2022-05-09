@@ -1,5 +1,8 @@
 name: CI
 
+concurrency:
+  cancel-in-progress: false
+
 # Controls when the workflow will run.
 on:
   # This allows the build to be triggered manually via the github UI.
