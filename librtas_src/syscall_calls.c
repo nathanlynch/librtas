@@ -320,6 +320,26 @@ int rtas_cfg_connector(char *workarea)
 }
 
 /**
+ * rtas_delay_timeout
+ * @brief Interface to retrieve the rtas timeout delay
+ *
+ * @param timeout_ms timeout in milli-seconds
+ * @return delay time
+ */
+int rtas_delay_timeout(uint64_t timeout_ms)
+{
+	int rc;
+
+	rc = sanity_check();
+	if (rc)
+		return rc;
+
+	rtas_timeout_ms = timeout_ms;
+
+	return 0;
+}
+
+/**
  * rtas_display_char
  * @brief Interface for display-character rtas call
  *
