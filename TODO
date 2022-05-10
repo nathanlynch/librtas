@@ -1,6 +1,3 @@
-* Rename resources/abi-dumps to resources/compat-dumps or similar. (see
-  below)
-
 * Change wording throughout to "compatibility check" or "compat check" vs
   "ABI check", "ABI dump", "compliance check" etc. Despite its name,
   abi-compliance-checker checks source level compatibility in addition to
@@ -12,8 +9,6 @@
 * Deduplicate dump generation code - either consolidate generate/check into
   one script or use a library.
 
-* Remove bespoke compat check script, data
-
 * Fix abi-compliance-checker binary compat check for ppc64le: no symbols
   detected, ABI breaks go undetected. The builds for other arches detect
   problems correctly, so the risk isn't exactly high, but ppc64le is our
@@ -22,7 +17,8 @@
   * https://lore.kernel.org/bpf/20191201195728.4161537-1-aurelien@aurel32.net/
   * https://bugzilla.redhat.com/show_bug.cgi?id=1479302
   Options? Fix abi-compliance-checker with a local patch, or a wrapper
-  script around readelf to filter out the confusing strings.
+  script around readelf to filter out the confusing strings. Either work
+  around this or explicitly exclude ppc64le from the check in CI.
 
 * Evaluate "-strict" option for abi-compliance-checker.
 
