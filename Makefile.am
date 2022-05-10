@@ -54,15 +54,15 @@ library_include_HEADERS += \
 noinst_HEADERS += librtasevent_src/rtas_event.h \
 	librtasevent_src/rtas_src_codes.c
 
-EXTRA_DIST += test/compat-check2 resources
+EXTRA_DIST += test/compat-check resources
 
 # If the source tree has an ABI dump, check the installed tree against it.
 installcheck-local:
 	if test -r $(srcdir)/resources/compat-dumps/$(host_alias).dump ; then \
-		$(srcdir)/test/compat-check2 --cc $(CC) --check $(prefix) \
+		$(srcdir)/test/compat-check --cc $(CC) --check $(prefix) \
 			--reference $(srcdir)/resources/compat-dumps/$(host_alias).dump ; \
 	elif test -r $(srcdir)/resources/compat-dumps/$(host).dump ; then \
-		$(srcdir)/test/compat-check2 --cc $(CC) --check $(prefix) \
+		$(srcdir)/test/compat-check --cc $(CC) --check $(prefix) \
 			--reference $(srcdir)/resources/compat-dumps/$(host).dump ; \
 	else \
 		echo "No ABI dump found for $(host), consider adding one!" ; \
