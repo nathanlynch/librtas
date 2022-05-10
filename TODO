@@ -4,8 +4,6 @@
   binary compatibility. And "compliance" is less precise than
   "compatibility".
 
-* Rename compat-check2!
-
 * Deduplicate dump generation code - either consolidate generate/check into
   one script or use a library.
 
