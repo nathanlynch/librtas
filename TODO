@@ -7,6 +7,10 @@
 * Deduplicate dump generation code - either consolidate generate/check into
   one script or use a library.
 
+* Make report location a parameter via env var or similar for make
+  installcheck, so we're not duplicating /tmp/compat_report.html in the
+  script and the CI workflow.
+
 * Fix abi-compliance-checker binary compat check for ppc64le: no symbols
   detected, ABI breaks go undetected. The builds for other arches detect
   problems correctly, so the risk isn't exactly high, but ppc64le is our
