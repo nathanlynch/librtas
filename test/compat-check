@@ -66,26 +66,6 @@ EOF
     echo "${desc}"
 }
 
-# consult generate-compat-dump. Need CC to be passed to script from make
-generate() {
-    local path
-    local output
-    local xml_descriptor
-
-    path="$1"; shift
-    output="$1"; shift
-
-    xml_descriptor="$(generate_xml_desc)"
-
-    "${abicc}" -relpath "${path}" \
-	       -dump "${xml_descriptor}" \
-	       -dump-format xml \
-	       -sort \
-	       -l librtas \
-	       -log-path /dev/null \
-	       -dump-path "${output}"
-}
-
 generate() {
     local libname
     local compiler
