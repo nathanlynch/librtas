@@ -10,8 +10,9 @@ progname=${0##*/}
 # - API at the source level
 # - ABI at the object code level
 #
-# ABICC supports at least three types of usage; this script use the following
-# pattern (lifted from the output of 'abi-compliance-checker --help'):
+# ABICC supports at least three types of usage. This script uses the
+# following pattern (lifted from the output of 'abi-compliance-checker
+# --help'):
 #
 # ========================================================================
 # USAGE #3 (CREATE ABI DUMPS):
@@ -41,6 +42,9 @@ progname=${0##*/}
 # abi-compliance-checker -l NAME -old ABI-0.dump -new ABI-1.dump
 #
 # ========================================================================
+#
+# resources/generate-compat-dump can be used to generate a dump suitable for
+# input to this script, as an argument to --reference.
 #
 # [1] https://github.com/lvc/abi-compliance-checker
 
@@ -133,9 +137,6 @@ check() {
     rm -f "${new_dump}"
 }
 
-################################################################################
-# main program
-
 usage() {
     local status
 
@@ -157,6 +158,9 @@ usage_msg() {
     shift
     usage 1
 }
+
+################################################################################
+# main program
 
 # Compiler to tell abi-compliance-checker to use. User may override.
 cc_cmd=cc
