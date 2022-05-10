@@ -22,9 +22,6 @@
   script around readelf to filter out the confusing strings. Either work
   around this or explicitly exclude ppc64le from the check in CI.
 
-* Evaluate "-show-retval" option for abi-compliance-checker. (show symbol
-  return type)
-
 * Add useful version information to compat reports. Right now they say
   "between X and X" (literally).
 
