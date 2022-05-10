@@ -22,13 +22,15 @@
   script around readelf to filter out the confusing strings. Either work
   around this or explicitly exclude ppc64le from the check in CI.
 
-* Evaluate "-strict" option for abi-compliance-checker.
-
 * Evaluate "-show-retval" option for abi-compliance-checker. (show symbol
   return type)
 
 * Add useful version information to compat reports. Right now they say
   "between X and X" (literally).
+
+* shfmt on script(s) - tabs/spaces. Align w/powerpc-utils.
+  indentation of 4 spaces, no tabs (except for special cases)
+  shfmt -i 4 -ci
 
 * CI: Build with more compilers/versions.
 
