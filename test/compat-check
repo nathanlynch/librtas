@@ -113,6 +113,7 @@ check() {
     "${abicc}" -l librtas -old "${old_dump}" -new "${new_dump}" \
 	       -log-path /dev/null \
 	       -report-path /tmp/compat_report.html \
+	       -show-retval \
 	       -strict
 
     rm -f "${new_dump}"
