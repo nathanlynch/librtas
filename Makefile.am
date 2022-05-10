@@ -54,10 +54,7 @@ library_include_HEADERS += \
 noinst_HEADERS += librtasevent_src/rtas_event.h \
 	librtasevent_src/rtas_src_codes.c
 
-AM_TESTS_ENVIRONMENT = srcdir='$(srcdir)'; builddir='$(builddir)'; export srcdir builddir;
-# TESTS = test/visibility
-EXTRA_DIST += test/compat-check2 test/visibility test/data/librtasevent.so-expected-exports test/data/librtas.so-expected-exports resources
-VERBOSE = yes
+EXTRA_DIST += test/compat-check2 resources
 
 # If the source tree has an ABI dump, check the installed tree against it.
 installcheck-local:
