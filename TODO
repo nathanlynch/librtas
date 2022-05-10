@@ -21,6 +21,8 @@
   strings in its output for ppc64le objects. See:
   * https://lore.kernel.org/bpf/20191201195728.4161537-1-aurelien@aurel32.net/
   * https://bugzilla.redhat.com/show_bug.cgi?id=1479302
+  Options? Fix abi-compliance-checker with a local patch, or a wrapper
+  script around readelf to filter out the confusing strings.
 
 * Evaluate "-strict" option for abi-compliance-checker.
 
