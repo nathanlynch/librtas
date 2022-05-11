@@ -187,4 +187,8 @@ done
 test -n "${reference}" || usage_msg "--reference <dump file> is required"
 test -n "${path}" || usage_msg "--check <path> is required"
 
+type "${abicc}" 2>/dev/null || {
+    printf "%s is not found, skipping compatibility check\n" "${abicc}"
+    exit 0
+}
 check "${path}" "${reference}" "${cc_cmd}"
