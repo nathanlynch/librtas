@@ -4,6 +4,11 @@
   binary compatibility. And "compliance" is less precise than
   "compatibility".
 
+* can we make compat dump check run at make check? And just skip when
+  abi-compliance-checker absent.
+
+* No error on absence of abi-compliance-checker
+
 * Deduplicate dump generation code - either consolidate generate/check into
   one script or use a library.
 
