@@ -1,9 +1,3 @@
-* Change wording throughout to "compatibility check" or "compat check" vs
-  "ABI check", "ABI dump", "compliance check" etc. Despite its name,
-  abi-compliance-checker checks source level compatibility in addition to
-  binary compatibility. And "compliance" is less precise than
-  "compatibility".
-
 * can we make compat dump check run at make check? And just skip when
   abi-compliance-checker absent.
 
