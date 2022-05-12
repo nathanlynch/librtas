@@ -1,3 +1,5 @@
+* rebase against origin/next and organize the branch
+
 * can we make compat dump check run at make check? And just skip when
   abi-compliance-checker absent.
 
@@ -6,7 +8,11 @@
 
 * Make report location a parameter via env var or similar for make
   installcheck, so we're not duplicating /tmp/compat_report.html in the
-  script and the CI workflow.
+  script and the CI workflow. consider how this would work with make check
+  as well.
+
+* Dump compat report via w3m in terminal (but also cope with absence of
+  w3m). Would require separate ABI and API passes?
 
 * Fix abi-compliance-checker binary compat check for ppc64le: no symbols
   detected, ABI breaks go undetected. The builds for other arches detect
