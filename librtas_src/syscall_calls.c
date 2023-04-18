@@ -144,6 +144,26 @@ static void display_rtas_buf(struct rtas_args *args, int after)
 	}
 }
 
+#if defined(__powerpc__) || defined(__powerpc64__)
+/*
+ * When targeting any variant of powerpc we expect SYS_rtas to be
+ * defined.
+ */
+static int rtas_syscall(struct rtas_args *args)
+{
+	return syscall(SYS_rtas, args);
+}
+#else /* __powerpc__ || __powerpc64__ */
+/*
+ * For non-powerpc targets (which we allow for the sake of build
+ * coverage), always use an invalid syscall number.
+ */
+static int rtas_syscall(struct rtas_args *args)
+{
+	return syscall(-1, args);
+}
+#endif /* __powerpc__ || __powerpc64__ */
+
 /**
  * rtas_call
  * @brief Perform the actual  system call for the rtas call
@@ -177,11 +197,7 @@ static int _rtas_call(int delay_handling, int token, int ninputs,
 	display_rtas_buf(&args, 0);
 
 	do {
-#ifdef _syscall1
-		rc = rtas(&args);
-#else
-		rc = syscall(__NR_rtas, &args);
-#endif
+		rc = rtas_syscall(&args);
 		if (!delay_handling || (rc < 0))
 			break;
 
