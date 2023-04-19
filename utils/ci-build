@@ -1,0 +1,37 @@
+#!/bin/bash
+
+set -eu
+
+host="$1"; shift
+
+declare -a my_cflags
+my_cflags=(-Wall -Werror -O2 -g)
+declare -a configure_cmd
+configure_cmd=(./configure)
+declare -a distcheck_args
+distcheck_args=()
+
+./autogen.sh
+
+case "$host" in
+    powerpc*-linux-gnu)
+	configure_cmd+=("--host=${host}")
+	distcheck_args+=("DISTCHECK_CONFIGURE_FLAGS=--host=${host}")
+	;;
+    musl)
+	configure_cmd+=("CC=musl-gcc")
+	distcheck_args+=("CC=musl-gcc")
+	;;
+    native)
+	: # pass
+	;;
+    *)
+	printf 'Error: unknown target "%s"' "$host" >&2
+	exit 1
+	;;
+esac
+
+"${configure_cmd[@]}"
+make V=1
+make distcheck V=1 ${distcheck_args[@]}
+file .libs/librtas.so*

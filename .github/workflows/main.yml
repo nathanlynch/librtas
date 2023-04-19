@@ -21,7 +21,7 @@ jobs:
 
     strategy:
       matrix:
-        host: [powerpc-linux-gnu, powerpc64-linux-gnu, powerpc64le-linux-gnu, x86_64-linux-gnu, x86_64-linux-musl]
+        host: [powerpc-linux-gnu, powerpc64-linux-gnu, powerpc64le-linux-gnu, native, musl]
 
     steps:
     - uses: actions/checkout@v3
@@ -33,14 +33,8 @@ jobs:
     - name: Install dependencies
       run: sudo ./utils/ubuntu-deps ${{ matrix.host }}
 
-    - name: autogen
-      run: ./autogen.sh
-
-    - name: configure
-      run: ./configure --host=${{ matrix.host }} CFLAGS='-Wall -Werror -O2 -g'
-
-    - name: make
-      run: make V=1
+    - name: Build
+      run: ./utils/ci-build ${{ matrix.host }}
 
     - name: distcheck
       run: |
