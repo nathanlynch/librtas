@@ -10,6 +10,9 @@ case "$host" in
     powerpc*-linux-gnu)
 	apt install -y "gcc-${host}"
 	;;
+    x86_64-linux-musl)
+	apt install -y "musl-tools"
+	;;
     x86_64-linux-gnu)
 	: # pass
 	;;
