@@ -1,0 +1,20 @@
+#!/bin/sh
+
+set -eu
+
+host="$1"; shift
+
+apt update
+
+case "$host" in
+    powerpc*-linux-gnu)
+	apt install -y "gcc-${host}"
+	;;
+    x86_64-linux-gnu)
+	: # pass
+	;;
+    *)
+	printf 'Error: unknown target "%s"' "$host" >&2
+	exit 1
+	;;
+esac

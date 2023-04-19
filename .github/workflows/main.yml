@@ -30,11 +30,8 @@ jobs:
       run: |
         echo "::add-matcher::.github/problem-matchers/compiler-source.json"
 
-    - name: Install cross compiler
-      if: matrix.host != 'x86_64-linux-gnu'
-      run: |
-        sudo apt update
-        sudo apt install -y gcc-${{ matrix.host }}
+    - name: Install dependencies
+      run: sudo ./utils/ubuntu-deps ${{ matrix.host }}
 
     - name: autogen
       run: ./autogen.sh
