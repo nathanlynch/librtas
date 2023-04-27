@@ -54,3 +54,21 @@ library_include_HEADERS += \
 
 noinst_HEADERS += librtasevent_src/rtas_event.h \
 	librtasevent_src/rtas_src_codes.c
+
+abixml_dir = $(srcdir)/data/abixml
+librtas_abi_xml = $(abixml_dir)/librtas/$(host_cpu)-$(host_os).xml
+librtasevent_abi_xml = $(abixml_dir)/librtasevent/$(host_cpu)-$(host_os).xml
+
+librtas_dso = $(builddir)/.libs/librtas.so
+librtasevent_dso = $(builddir)/.libs/librtasevent.so
+
+# Automake allows Make conditionals through if they're not in the first column.
+ ifdef cmd_abidiff
+abidiff_opts = --no-default-suppression
+.PHONY: abi-check librtas-abi-check librtasevent-abi-check
+abi-check: librtas-abi-check librtasevent-abi-check
+librtas-abi-check: librtas.la
+	$(cmd_abidiff) $(abidiff_opts) $(librtas_abi_xml) $(librtas_dso)
+librtasevent-abi-check: librtasevent.la
+	$(cmd_abidiff) $(abidiff_opts) $(librtasevent_abi_xml) $(librtasevent_dso)
+ endif # cmd_abidiff
